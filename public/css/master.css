@@ -1,3 +1,43 @@
-h1 {
- color: tomato
+body {
+	background-color: rgb(30, 30, 30);
+	color: white;
+}	
+
+table {
+	background-color: rgb(160, 160, 160);
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 2px solid lightgray;
+}
+
+.left-box {
+	float: left;
+}
+
+.right-box {
+	float: right;
+}
+
+.bottom-box {
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+}
+
+.button {
+	color: white;
+	width: 240px;
+	height: 120px;
+	font-size: 40px;
+	font-family: "나눔고딕 ExtraBold";
+}
+
+#btn1 {
+	background-color: rgb(68, 68, 68);
+}
+
+#btn2 {
+	background-color: #469536;
 }
