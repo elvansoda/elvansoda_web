@@ -2,80 +2,41 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>ElvalSoda</title>
+	<title>ElvanSoda</title>
 	<link rel="stylesheet" type="text/css" href="/css/master.css">
 </head>
 <body>
 	<script type="text/javascript">
-		document.write("<table>");
+		document.write("<table class='product_table'>");
 		document.write("<tr>");
-		document.write("<td></td>");
-//					<td></td>
-//					<td></td>
-		document.write("</tr>");
+		document.write("<th width=400px>상품명</th>");
+		document.write("<th width=130px>수량</th>");
+		document.write("<th width=300px>가격</th>");
+		document.write("</tr>")
+
+		for(var i = 0; i < 20; i++)
+		{
+			document.write("<tr>");
+			for(var j = 0; j < 3; j++)
+			{
+				document.write("<td></td>");
+			}
+			document.write("</tr>");
+		}
+
 		document.write("</table>");
 	</script>
-	<div class="left-box">
-		<table class="product_table">
-			<thead>
-				<tr>
-					<th width="400px">상품명</th>
-					<th width="130px">수량</th>
-					<th width="300px">가격</th>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</thead>
-			<tbody id="serviceTbody"></tbody>
-		</table>
 
+	<div class="left-box">
 	</div>
+
 	<div class="right-box">
-		<img src="images/256x256.png">
+		<img src="images/256x256.png" id="img">
 		<br>
 		<div class="bottom-box">
 			<input class="button" id="btn1" type="button" name="btn1" value="취소">
 			<input class="button" id="btn2" type="button" name="btn2" value="결제">
 		</div>
-	</div>	
+	</div>
 </body>
 </html>

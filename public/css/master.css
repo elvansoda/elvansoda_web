@@ -1,7 +1,7 @@
 body {
 	background-color: rgb(30, 30, 30);
 	color: white;
-}	
+}
 
 table {
 	background-color: rgb(160, 160, 160);
@@ -10,6 +10,12 @@ table {
 
 th, td {
 	border: 2px solid lightgray;
+	height: 25px
+}
+
+td {
+	background-color: white;
+	color: black;
 }
 
 .left-box {
@@ -40,4 +46,8 @@ th, td {
 
 #btn2 {
 	background-color: #469536;
+}
+
+#img {
+	
 }
