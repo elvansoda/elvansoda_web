@@ -1,7 +1,15 @@
 //index.js
 
 var express = require('express');
+var mysql = require('mysql');
 var app = express();
+
+var connection = mysql.createConnection({
+  host     : 'us-cdbr-iron-east-02.cleardb.net',
+  user     : 'b387ea294ad5d8',
+  password : '6c97eafa',
+  database : 'heroku_91e7a73ec3ad857'
+});
 
 app.set("views", "view");
 app.set("view engine","ejs");
