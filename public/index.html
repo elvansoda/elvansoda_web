@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>ElvalSoda</title>
+	<title>ElvanSoda</title>
 	<link rel="stylesheet" type="text/css" href="/css/master.css">
 </head>
 <body>
 	<script type="text/javascript">
+		function cancel() {
+			console.log('Button1 clicked');
+			window.open("popup_close.html", "c", "width=500, height=300, left=100, top=50");
+		}
+
 		document.write("<div class=left-box width=60%>");
 		document.write("<table class=product_table height=90%>");
 		document.write("<tr>");
@@ -33,7 +38,7 @@
 		</div>
 		<br>
 		<h1>총금액: </h1>
-		<input class="button" id="btn1" type="button" name="btn1" value="취소">
+		<input class="button" onclick="cancel();" id="btn1" type="button" name="btn1" value="취소">
 		<input class="button" id="btn2" type="button" name="btn2" value="결제">
 	</div>	
 </body>
