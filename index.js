@@ -12,6 +12,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
+connection.end();
 
 app.set("views", "view");
 app.set("view engine","ejs");

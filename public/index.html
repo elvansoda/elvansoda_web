@@ -8,8 +8,13 @@
 <body>
 	<script type="text/javascript">
 		function cancel() {
-			console.log('Button1 clicked');
-			window.open("popup_close.html", "c", "width=500, height=300, left=100, top=50");
+			console.log('Cancel button clicked');
+			window.open("popup_close.html", "c", "width=500, height=220, left=450, top=250");
+		}
+
+		function pay() {
+			console.log('Pay button clicked');
+			window.open("popup_pay.html", "p", "width=500, height=220, left=450, top=250");
 		}
 
 		document.write("<div class=left-box width=60%>");
@@ -39,7 +44,7 @@
 		<br>
 		<h1>총금액: </h1>
 		<input class="button" onclick="cancel();" id="btn1" type="button" name="btn1" value="취소">
-		<input class="button" id="btn2" type="button" name="btn2" value="결제">
+		<input class="button" onclick="pay();" id="btn2" type="button" name="btn2" value="결제">
 	</div>	
 </body>
 </html>
