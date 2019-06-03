@@ -7,70 +7,29 @@
 </head>
 <body>
 	<script type="text/javascript">
-		document.write("<table>");
+		document.write("<div class=left-box>");
+		document.write("<table class=product_table height=90%>");
 		document.write("<tr>");
-		document.write("<td></td>");
-//					<td></td>
-//					<td></td>
+		document.write("<th width=400px>상품명</th>");
+		document.write("<th width=130px>수량</th>");
+		document.write("<th width=300px>가격</th>");
 		document.write("</tr>");
-		document.write("</table>");
-	</script>
-	<div class="left-box">
-		<table class="product_table">
-			<thead>
-				<tr>
-					<th width="400px">상품명</th>
-					<th width="130px">수량</th>
-					<th width="300px">가격</th>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</thead>
-			<tbody id="serviceTbody"></tbody>
-		</table>
 
-	</div>
+		for (var i = 20; i >= 0; i--) {
+			document.write("<tr height=25px>");
+			for (var j = 2; j >= 0; j--) {
+				document.write("<td></td>");
+			}
+			document.write("</tr>");
+		}
+		document.write("</table>");
+		document.write("</div>");
+	</script>
+
 	<div class="right-box">
 		<img src="images/256x256.png">
+		<br>
+		<h1>총금액: </h1>
 		<br>
 		<div class="bottom-box">
 			<input class="button" id="btn1" type="button" name="btn1" value="취소">

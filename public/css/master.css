@@ -12,12 +12,21 @@ th, td {
 	border: 2px solid lightgray;
 }
 
+td {
+	background-color: rgb(240,240,240);
+}
+
+h1 {
+	color: #469536;
+	font-size: 50px;
+}
+
 .left-box {
 	float: left;
 }
 
 .right-box {
-	float: right;
+	
 }
 
 .bottom-box {
