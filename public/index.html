@@ -7,12 +7,12 @@
 </head>
 <body>
 	<script type="text/javascript">
-		document.write("<div class=left-box>");
+		document.write("<div class=left-box width=60%>");
 		document.write("<table class=product_table height=90%>");
 		document.write("<tr>");
-		document.write("<th width=400px>상품명</th>");
-		document.write("<th width=130px>수량</th>");
-		document.write("<th width=300px>가격</th>");
+		document.write("<th width=410>상품명</th>");
+		document.write("<th width=150>수량</th>");
+		document.write("<th width=250>가격</th>");
 		document.write("</tr>");
 
 		for (var i = 20; i >= 0; i--) {
@@ -22,19 +22,19 @@
 			}
 			document.write("</tr>");
 		}
+
 		document.write("</table>");
 		document.write("</div>");
 	</script>
 
 	<div class="right-box">
-		<img src="images/256x256.png">
+		<div>
+			<img src="images/1024x1024.png" width="360" height="360">	
+		</div>
 		<br>
 		<h1>총금액: </h1>
-		<br>
-		<div class="bottom-box">
-			<input class="button" id="btn1" type="button" name="btn1" value="취소">
-			<input class="button" id="btn2" type="button" name="btn2" value="결제">
-		</div>
+		<input class="button" id="btn1" type="button" name="btn1" value="취소">
+		<input class="button" id="btn2" type="button" name="btn2" value="결제">
 	</div>	
 </body>
 </html>

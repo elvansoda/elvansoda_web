@@ -21,12 +21,22 @@ h1 {
 	font-size: 50px;
 }
 
+img {
+	display: block;
+	margin: 0px auto;
+}
+
 .left-box {
 	float: left;
+/*	border: 2px solid white;
+*/
 }
 
 .right-box {
-	
+	float: right;
+/*
+border: 2px solid white;
+ */	
 }
 
 .bottom-box {
@@ -41,6 +51,10 @@ h1 {
 	height: 120px;
 	font-size: 40px;
 	font-family: "나눔고딕 ExtraBold";
+}
+
+.right-top {
+	float: center;
 }
 
 #btn1 {
