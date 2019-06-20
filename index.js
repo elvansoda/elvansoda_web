@@ -1,9 +1,12 @@
 //index.js
 
 var express = require('express');
+var app = express();
 var mysql = require('mysql');
 var mysql_data = require('./config.js');
-var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+
 /*
 var connection = mysql.createConnection({
 	host     : 'us-cdbr-iron-east-02.cleardb.net',
@@ -41,9 +44,15 @@ app.listen(port, function(){
 });
 
 app.get('/list', function (req, res) {
+	var name = req.body.name;
+	console.log(name);
+/*
+var name = req.body.name;
+	var fp = req.body.FingerPrint;
+
     //SQL문 실행
     console.log('Connection to the /list sensored.');
-    connection.query('SELECT * FROM customer', function(err, rows, fields) {
+    connection.query("INSERT INTO customer(CustomerName, FingerPrint) VALUES ('"+ name + "', '" + fp + "');", function(err, rows, fields) {
     	if(err){
     		console.log('Error occured! ', err);
     		res.send("There's no data you requested.");
@@ -53,7 +62,14 @@ app.get('/list', function (req, res) {
     		res.json(rows);
     	}
     });
+ */	
+});
 
+app.post('/manager/stocks', function(req, res) {
+	console.log('Connection to the /manager/stocks sensored.');
+	var name = req.body.name;
+	console.log(name);
+	res.send(name);
 });
 
 connection.on('error', function(error) {console.log(error)});
