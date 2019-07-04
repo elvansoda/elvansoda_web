@@ -107,6 +107,10 @@ app.get('/manager/stocks', function(req, res) {
 			console.log('Error occured! ', err);
 			res.send('Failed to show someti')
 		}
+		else {
+			console.log('OK');
+			res.send(rows);
+		}
 	})
 })
 connection.on('error', function(error) {console.log(error)});
