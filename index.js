@@ -65,12 +65,49 @@ var name = req.body.name;
  */	
 });
 
-app.post('/manager/stocks', function(req, res) {
+app.post('/manager/stocks/add', function(req, res) {
 	console.log('Connection to the /manager/stocks sensored.');
-	var name = req.body.name;
-	console.log(name);
-	res.send(name);
+	
+	//재고 확인
+	var state = req.body.state;
+	var stockname = req.body.stockname;
+	var stocks = req.body.stocks;
+	var adultTF = req.body.tf;
+	var price = req.body.price;
+	var num = req.body.num;
+	
+	if(state == "INSERT")
+	{
+		connection.query("INSERT INTO manager VALUES (" + num + ", '" + stockname + "', " + price + ", " + adultTF + ", " + stocks + ");", function(err, rows, fields) {
+			if(err) {
+				console.log('Error occured! ', err);
+				res.send("Failed to insert data into remote database.");
+			}
+			else {
+				connection.query("SELECT * FROM manager;", function(err, rows, fields) {
+					if(err) {
+						console.log('Error ocured! ', err);
+						res.send('Failed to show data from remote database.');
+					}
+					else {
+						console.log('OK');
+						res.send(rows);
+					}
+				})
+			}
+		});
+	}
 });
 
+app.get('/manager/stocks', function(req, res) {
+	console.log('Connection to /manager/stocks sensored.');
+
+	connection.query("SELECT * FROM manager", function(err, rows, fields) {
+		if(err) {
+			console.log('Error occured! ', err);
+			res.send('Failed to show someti')
+		}
+	})
+})
 connection.on('error', function(error) {console.log(error)});
 //connection.end();
