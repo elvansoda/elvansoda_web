@@ -23,11 +23,11 @@ module.exports = function(app)
 
 	app.post('/insert', (req, res) => {
 		var pName = req.body.pName;
-		var stocknum = req.body.stockNum;
+		var stocknum = req.body.stocknum;
 		var pPrice = req.body.pPrice;
 		var isadult = req.body.isadult;
 
-		var inserter = "INSERT INTO manager(ProductName, Price, AdultTF, StockNum) VALUES (";
+		var inserter = "INSERT INTO manager(ProductName, Price, isAdult, StockNum) VALUES (";
 		var updater = "UPDATE manager SET ";
 
 		var isUpdate;
@@ -47,14 +47,14 @@ module.exports = function(app)
 
 		function selectMode(isUpdate) {
 			if(isUpdate) {
-				var final_updater = updater.concat("StockNum = StockNum + ", stocknum, ",", "AdultTF = ", isadult, ",", "Price = ", pPrice, " WHERE ProductName = ", "'", pName, "';");
+				var final_updater = updater.concat("StockNum = StockNum + ", stocknum, ",", "isAdult = ", isadult, ",", "Price = ", pPrice, " WHERE ProductName = ", "'", pName, "';");
 				connection.query(final_updater, (err, rows, fields) => {
 					if(err) {
 						console.log(err);
 						res.send('update failed');
 					}
 					else {
-						connection.query('SELECT ProductName, StockNum, Price, AdultTF FROM manager', (err, rows, fiedls) => {
+						connection.query('SELECT ProductName, StockNum, Price, isAdult FROM manager', (err, rows, fiedls) => {
 							if(err) {
 								console.log(err);
 								res.send('show failed');
@@ -76,7 +76,7 @@ module.exports = function(app)
 					}
 					else {
 						console.log(rows);
-						connection.query('SELECT ProductName, StockNum, AdultTF, Price FROM manager', (err, rows, fields) => {
+						connection.query('SELECT ProductName, StockNum, isAdult, Price FROM manager', (err, rows, fields) => {
 							if(err) {
 								console.log(err);
 								res.send('show failed');
