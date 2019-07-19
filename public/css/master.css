@@ -64,3 +64,8 @@ border: 2px solid white;
 #btn2 {
 	background-color: #469536;
 }
+
+.product_table {
+	background-color: rgb(160, 160, 160);
+	border-collapse: collapse;
+}
