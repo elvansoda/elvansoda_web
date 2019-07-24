@@ -162,6 +162,6 @@ module.exports = function(app)
 	});
 
 	app.post('/delete', (req, res) => {
-
+		
 	});
 }
