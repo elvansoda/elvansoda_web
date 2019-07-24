@@ -6,7 +6,7 @@ module.exports = function(app)
 
 	app.get('/view', (req, res) => {
 		console.log("Someone entered /view");
-		connection.query('SELECT * FROM manager', (err, rows, fields) => {
+		connection.query('SELECT ProductName, Price, isAdult, StockNum FROM manager', (err, rows, fields) => {
 			if(err)	{
 				console.log(err);
 				res.send('Cannot find data');
@@ -19,10 +19,10 @@ module.exports = function(app)
 	});
 
 	app.post('/insert', (req, res) => {
-		var pName = req.body.pName;
-		var stocknum = req.body.stocknum;
-		var pPrice = req.body.pPrice;
-		var isadult = req.body.isadult;
+		var pName = req.body.ProductName;
+		var stocknum = req.body.StockNum;
+		var pPrice = req.body.Price;
+		var isadult = req.body.isAdult;
 
 		connection.query("SELECT ProductName FROM manager", (err, rows, fields) => {
 			if(err) {
@@ -159,5 +159,9 @@ module.exports = function(app)
 				}
 			});
 		}
+	});
+
+	app.post('/delete', (req, res) => {
+
 	});
 }
