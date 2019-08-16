@@ -1,10 +1,9 @@
 module.exports = function(app)
 {
-	app.get('/payment', (req, res) => {
-		res.render('Page1.ejs');
-	});
+	var express = require('express');
+	var router = express.Router();
 
-	app.get('/view', (req, res) => {
+	router.get('/view', (req, res) => {
 		console.log("Someone entered /view");
 		connection.query('SELECT ProductName, Price, isAdult, StockNum FROM manager', (err, rows, fields) => {
 			if(err)	{
@@ -18,20 +17,20 @@ module.exports = function(app)
 		})
 	});
 
-	app.post('/insert', (req, res) => {
-		var pName = req.body.ProductName;
+	router.post('/insert', (req, res) => {
+		var ProductName = req.body.ProductName;
 		var stocknum = req.body.StockNum;
-		var pPrice = req.body.Price;
-		var isadult = req.body.isAdult;
-
+		var Price = req.body.Price;
+		var isAdult = req.body.isAdult;
+		
 		connection.query("SELECT ProductName FROM manager", (err, rows, fields) => {
 			if(err) {
 				console.log(err);
 				res.send('Error occured while loading Database Table!');
 			}
 			else {
-				//JSON 데이터 내에 pName 값이 들어있는지 확인하고 UPDATE나 INSERT 중 하나의 구문을 수행.
-				if(JSON.stringify(rows).includes(pName)) updateTable();
+				//JSON 데이터 내에 ProductName 값이 들어있는지 확인하고 UPDATE나 INSERT 중 하나의 구문을 수행.
+				if(JSON.stringify(rows).includes(ProductName)) updateTable();
 				else insertTable();
 			}
 		});
@@ -39,9 +38,9 @@ module.exports = function(app)
 		function updateTable() {
 			var updateStatement = "UPDATE manager SET ".concat(
 				"StockNum = StockNum + ", stocknum,	",", 
-				"isAdult = ", isadult, ",", 
-				"Price = ", pPrice, 
-				" WHERE ProductName = '", pName, "';"
+				"isAdult = ", isAdult, ",", 
+				"Price = ", Price, 
+				" WHERE ProductName = '", ProductName, "';"
 			);
 			connection.query(updateStatement, (err, rows, fields) => {
 				if(err) {
@@ -66,9 +65,9 @@ module.exports = function(app)
 
 		function insertTable() {
 			var insertStatement = "INSERT INTO manager(ProductName, Price, isAdult, StockNum) VALUES (".concat(
-				"'", pName, "',", 
-				pPrice, ",", 
-				isadult, ",", 
+				"'", ProductName, "',", 
+				Price, ",", 
+				isAdult, ",", 
 				stocknum, ");"
 			);
 			connection.query(insertStatement, (err, rows, fields) => {
@@ -93,7 +92,7 @@ module.exports = function(app)
 		}
 	});
 
-	app.post('/payment/update', (req, res) => {
+	router.post('/payment/update', (req, res) => {
 		var ProductName = req.body.ProductName;
 		var TotalPrice = req.body.TotalPrice;
 		
@@ -161,7 +160,46 @@ module.exports = function(app)
 		}
 	});
 
-	app.post('/delete', (req, res) => {
-		
+	router.post('/delete', (req, res) => {
+		var ProductName = req.body.ProductName;
+
+		connection.query('SELECT ProductName FROM manager', (err, rows, fields) => {
+			if(err) {
+				console.log(err);
+				res.send(err);
+			}
+			else {
+				if(JSON.stringify(rows).includes(ProductName)) {
+					deleteStatement = 'DELETE FROM manager WHERE '.concat(
+						"ProductName = '",
+						ProductName,
+						"';"
+					);
+					connection.query(deleteStatement, (err, rows, fields) => {
+						if(err) {
+							console.log('Delete error! \n');
+							console.log(err);
+							res.send(err);
+						}
+						else {
+							connection.query('SELECT * FROM manager', (err, rows, fields) => {
+								if(err) {
+									console.log(err);
+									res.send(err);
+								} else {
+									console.log(rows);
+									res.json(rows);
+								}
+							})
+						}
+					})
+				} else {
+					console.log('This name is not defined');
+					res.json('No Data');
+				}
+			}
+		})
 	});
+
+	return router;
 }

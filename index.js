@@ -37,4 +37,8 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var Router = require('./router/router')(app);
+var indexRouter = require('./router/indexRouter.js')(app);
+app.use('/', indexRouter);
+
+var managerRouter = require('./router/router.js')(app);
+app.use('/manage', managerRouter);
