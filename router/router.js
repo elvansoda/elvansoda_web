@@ -1,205 +1,208 @@
-module.exports = function(app)
-{
-	var express = require('express');
-	var router = express.Router();
+module.exports = function(app, database, io) {
+  const express = require("express");
+  const router = express.Router();
 
-	router.get('/view', (req, res) => {
-		console.log("Someone entered /view");
-		connection.query('SELECT ProductName, Price, isAdult, StockNum FROM manager', (err, rows, fields) => {
-			if(err)	{
-				console.log(err);
-				res.send('Cannot find data');
-			}
-			else {
-				console.log(rows);
-				res.json(rows);
-			}
-		})
-	});
+  router.get("/view", (req, res) => {
+    database
+      .query("SELECT Productname, Price, isAdult, StockNum FROM manager")
+      .then(rows => {
+        console.log(rows);
+        res.json(rows);
+      })
+      .catch(err => {
+        console.log(err);
+        res.send("Cannot find data.");
+      });
+  });
 
-	router.post('/insert', (req, res) => {
-		var ProductName = req.body.ProductName;
-		var stocknum = req.body.StockNum;
-		var Price = req.body.Price;
-		var isAdult = req.body.isAdult;
-		
-		connection.query("SELECT ProductName FROM manager", (err, rows, fields) => {
-			if(err) {
-				console.log(err);
-				res.send('Error occured while loading Database Table!');
-			}
-			else {
-				//JSON 데이터 내에 ProductName 값이 들어있는지 확인하고 UPDATE나 INSERT 중 하나의 구문을 수행.
-				if(JSON.stringify(rows).includes(ProductName)) updateTable();
-				else insertTable();
-			}
-		});
+  router.post("/insert", (req, res) => {
+    var ProductName = req.body.ProductName;
+    var stocknum = req.body.StockNum;
+    var Price = req.body.Price;
+    var isAdult = req.body.isAdult;
 
-		function updateTable() {
-			var updateStatement = "UPDATE manager SET ".concat(
-				"StockNum = StockNum + ", stocknum,	",", 
-				"isAdult = ", isAdult, ",", 
-				"Price = ", Price, 
-				" WHERE ProductName = '", ProductName, "';"
-			);
-			connection.query(updateStatement, (err, rows, fields) => {
-				if(err) {
-					console.log(err);
-					res.send('update failed');
-				}
-				else {
-					console.log(rows);
-					connection.query('SELECT ProductName, StockNum, Price, isAdult FROM manager', (err, rows, fiedls) => {
-						if(err) {
-							console.log(err);
-							res.send('show failed');
-						}
-						else {
-							console.log(rows);
-							res.json(rows);
-						}
-					});
-				}
-			});
-		}
+    database
+      .query("SELECT ProductName FROM manager")
+      .then(rows => {
+        return JSON.stringify(rows).includes(ProductName);
+      })
+      .then(state => {
+        state ? updateTable() : insertTable();
+      });
 
-		function insertTable() {
-			var insertStatement = "INSERT INTO manager(ProductName, Price, isAdult, StockNum) VALUES (".concat(
-				"'", ProductName, "',", 
-				Price, ",", 
-				isAdult, ",", 
-				stocknum, ");"
-			);
-			connection.query(insertStatement, (err, rows, fields) => {
-				if(err) {
-					console.log(err);
-					res.send('insert failed');
-				}
-				else {
-					console.log(rows);
-					connection.query('SELECT ProductName, StockNum, isAdult, Price FROM manager', (err, rows, fields) => {
-						if(err) {
-							console.log(err);
-							res.send('show failed');
-						}
-						else {
-							console.log(rows);
-							res.json(rows);
-						}
-					});
-				}
-			});
-		}
-	});
+    function updateTable() {
+      var updateStatement = "UPDATE manager SET ".concat(
+        "StockNum = StockNum + ",
+        stocknum,
+        ",",
+        "isAdult = ",
+        isAdult,
+        ",",
+        "Price = ",
+        Price,
+        " WHERE ProductName = '",
+        ProductName,
+        "';"
+      );
 
-	router.post('/payment/update', (req, res) => {
-		var ProductName = req.body.ProductName;
-		var TotalPrice = req.body.TotalPrice;
-		
-		conenction.query("SELECT ProductName FROM screen", (err, rows, fields) => {
-			if(err) {
-				console.log(err);
-				res.send('Error occured while loading Database Table!');
-			}
-			else {
-				if(JSON.stringify(rows).includes(ProductName)) updateTable();
-				else insertTable();
-			}
-		});
+      database
+        .query(updateStatement)
+        .then(rows => {
+          console.log(rows);
+          return database.query(
+            "SELECT ProductName, StockNum, Price, isAdult FROM manager"
+          );
+        })
+        .then(rows => {
+          console.log(rows);
+          res.json(rows);
+        })
+        .catch(err => {
+          console.log(err);
+          res.send("Error!");
+        });
+    }
 
-		function updateTable() {
-			var updateStatement = "UPDATE screen SET ".concat("ProductName = ", ProductName, ", Amount = Amount + 1, TotalPrice = ", TotalPrice + TotalPrice, " WHERE ProductName = '", ProductName, "';")
-			connection.query(updateStatement, (err, rows, fields) => {
-				if(err) {
-					console.log(err);
-					res.send('Error occured while updating screen data!');
-				}
-				else {
-					connection.query('SELECT ProductName, Amount, TotalPrice FROM screen', (err, rows, fields) => {
-						if(err) {
-							console.log(err);
-							res.send('Error occured while loading screen Table');
-						}
-						else {
-							console.log(rows);
-							res.json(rows);
-						}
-					});
-				}
-			});
-		}
+    function insertTable() {
+      var insertStatement = "INSERT INTO manager(ProductName, Price, isAdult, StockNum) VALUES (".concat(
+        "'",
+        ProductName,
+        "',",
+        Price,
+        ",",
+        isAdult,
+        ",",
+        stocknum,
+        ");"
+      );
 
-		function insertTable() {
-			var insertStatement = "INSERT INTO screen(ProductName, Amount, TotalPrice) VALUES(".concat(
-				"'",
-				ProductName,
-				"', ",
-				1,
-				",",
-				TotalPrice,
-				");"
-			);
-			connection.query(insertStatement, (err, rows, fields) => {
-				if(err) {
-					console.log(err);
-					res.send('Error!');
-				}
-				else {
-					connection.query('SELECT ProductName, Amount, TotalPrice FROM screen', (err, rows, fields) => {
-						if(err) {
-							console.log(err);
-							res.send('Error while loading');
-						}
-						else {
-							console.log(rows);
-							res.json(rows);
-						}
-					});
-				}
-			});
-		}
-	});
+      database
+        .query(insertStatement)
+        .then(rows => {
+          console.log(rows);
+          return database.query(
+            "SELECT ProductName, StockNum, isAdult, Price FROM manager"
+          );
+        })
+        .then(rows => {
+          console.log(rows);
+          res.json(rows);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  });
 
-	router.post('/delete', (req, res) => {
-		var ProductName = req.body.ProductName;
+  router.post("/payment/update", (req, res) => {
+    const ProductName = req.body.ProductName;
+    const Price = req.body.Price;
+    const session = req.session;
 
-		connection.query('SELECT ProductName FROM manager', (err, rows, fields) => {
-			if(err) {
-				console.log(err);
-				res.send(err);
-			}
-			else {
-				if(JSON.stringify(rows).includes(ProductName)) {
-					deleteStatement = 'DELETE FROM manager WHERE '.concat(
-						"ProductName = '",
-						ProductName,
-						"';"
-					);
-					connection.query(deleteStatement, (err, rows, fields) => {
-						if(err) {
-							console.log('Delete error! \n');
-							console.log(err);
-							res.send(err);
-						}
-						else {
-							connection.query('SELECT * FROM manager', (err, rows, fields) => {
-								if(err) {
-									console.log(err);
-									res.send(err);
-								} else {
-									console.log(rows);
-									res.json(rows);
-								}
-							})
-						}
-					})
-				} else {
-					console.log('This name is not defined');
-					res.json('No Data');
-				}
-			}
-		})
-	});
+    database
+      .query("SELECT ProductName FROM screen")
+      .then(rows => {
+        console.log(rows);
+        return JSON.stringify(rows).includes(ProductName);
+      })
+      .then(state => {
+        state ? updateTable() : insertTable();
+      })
+      .catch(err => {
+        console.log(err);
+        res.send(err);
+      });
 
-	return router;
-}
+    function updateTable() {
+      var updateStatement = "UPDATE screen SET ".concat(
+        "Amount = Amount + 1, TotalPrice = TotalPrice + ",
+        Price,
+        " WHERE ProductName = '",
+        ProductName,
+        "';"
+      );
+
+      database
+        .query(updateStatement)
+        .then(rows => {
+          return database.query(
+            "SELECT ProductName, Amount, TotalPrice FROM screen"
+          );
+        })
+        .then(rows => {
+          console.log(rows);
+          io.emit("data updated", rows);
+          res.send("OK");
+        })
+        .catch(err => {
+          console.log(err);
+          res.send(err);
+        });
+    }
+
+    function insertTable() {
+      var insertStatement = "INSERT INTO screen(ProductName, Amount, TotalPrice) VALUES(".concat(
+        "'",
+        ProductName,
+        "', ",
+        1,
+        ",",
+        Price,
+        ");"
+      );
+
+      database
+        .query(insertStatement)
+        .then(rows => {
+          return database.query(
+            "SELECT ProductName, Amount, TotalPrice FROM screen"
+          );
+        })
+        .then(rows => {
+          console.log(rows);
+          io.emit("data updated", rows);
+          res.send("OK");
+        })
+        .catch(err => {
+          console.log(err);
+          res.send(err);
+        });
+    }
+  });
+
+  router.post("/delete", (req, res) => {
+    var ProductName = req.body.ProductName;
+
+    database
+      .query("SELECT ProductName FROM manager")
+      .then(rows => {
+        if (!JSON.stringify(rows).includes(ProductName))
+          return new Promise((resolve, reject) => {
+            reject("There is no product name like you requested.");
+          });
+        return ProductName;
+      })
+      .then(product_name => {
+        return database.query(
+          "DELETE FROM manager WHERE ".concat(
+            "ProductName = '",
+            product_name,
+            "';"
+          )
+        );
+      })
+      .then(() => {
+        return database.query("SELECT * FROM manager");
+      })
+      .then(rows => {
+        console.log(rows);
+        res.json(rows);
+      })
+      .catch(err => {
+        console.log(err);
+        res.send(err);
+      });
+  });
+
+  return router;
+};

@@ -1,11 +1,10 @@
-module.exports = function(app)
-{
-    var express = require('express');
-    var router = express.Router();
+module.exports = function(app) {
+  const express = require("express");
+  const router = express.Router();
 
-    router.get('/', (req, res) => {
-        res.render('Page1.ejs');
-    });
+  router.get("/", (req, res) => {
+    res.render("index.html");
+  });
 
-    return router;
-}
+  return router;
+};
