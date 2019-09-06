@@ -97,7 +97,6 @@ module.exports = function(app, database, io) {
   router.post("/payment/update", (req, res) => {
     const ProductName = req.body.ProductName;
     const Price = req.body.Price;
-    const session = req.session;
 
     database
       .query("SELECT ProductName FROM screen")
