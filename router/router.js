@@ -4,7 +4,7 @@ module.exports = function(app, database, io) {
 
   router.get('/stocks', (req, res) => {
     database
-      .query('SELECT Productname, Price, isAdult, StockNum FROM manager')
+      .query('SELECT Productname, Price, isAdult, StockNum FROM stock')
       .then((rows) => {
         console.log(rows);
         res.json(rows);
@@ -18,7 +18,7 @@ module.exports = function(app, database, io) {
   router.put('/stocks', (req, res) => {
     database
       .query(
-        `INSERT INTO manager(ProductName, Price, isAdult, StockNum) VALUES ('${req.body.ProductName}', ${req.body.Price}, ${req.body.isAdult}, ${req.body.StockNum}) 
+        `INSERT INTO stock(ProductName, Price, isAdult, StockNum) VALUES ('${req.body.ProductName}', ${req.body.Price}, ${req.body.isAdult}, ${req.body.StockNum}) 
         ON DUPLICATE KEY UPDATE ProductName='${req.body.ProductName}', Price=${req.body.Price}, isAdult=${req.body.isAdult}, StockNum=${req.body.StockNum}`,
       )
       .then((result) => {
@@ -33,11 +33,11 @@ module.exports = function(app, database, io) {
     console.log(req.params.productName);
     database
       .query(
-        `SELECT Productname FROM manager WHERE Productname='${req.params.productName}';`,
+        `SELECT Productname FROM stock WHERE Productname='${req.params.productName}';`,
       )
       .then((result) => {
         return database.query(
-          `DELETE FROM manager WHERE Productname='${req.params.productName}';`,
+          `DELETE FROM stock WHERE Productname='${req.params.productName}';`,
         );
       })
       .then((result) => {
@@ -47,37 +47,6 @@ module.exports = function(app, database, io) {
       .catch((err) => {
         console.log(err);
         res.send('No products found.');
-      });
-  });
-
-  router.put('/store/list', (req, res) => {
-    let result = {};
-    if (!req.body.ProductName || !req.body.Amount || !req.body.TotalPrice) {
-      result = {
-        success: 0,
-        err: 'ERR_FILES_NOT_ENOUGH',
-      };
-      res.json(result);
-    }
-
-    database
-      .query(
-        `INSERT INTO manager(ProductName, Amount, TotalPrice) VALUES ('${
-          req.body.ProductName
-        }', ${req.body.Amount}, ${req.body.TotalPrice}) 
-    ON DUPLICATE KEY UPDATE ProductName='${req.body.ProductName}', Price=${
-          req.body.Amount
-        }, isAdult=${req.body.TotalPrice + 1}`,
-      )
-      .then((res) => {
-        console.log(res);
-        result = {
-          success: 1,
-        };
-        res.json(result);
-      })
-      .catch((err) => {
-        console.log(err);
       });
   });
 
