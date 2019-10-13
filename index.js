@@ -80,8 +80,6 @@ io.on('connection', (socket) => {
         console.log('data deleted');
         socket.broadcast.emit('data clear');
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(console.log);
   });
 });
