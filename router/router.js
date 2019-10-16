@@ -4,7 +4,7 @@ module.exports = function(app, database, io) {
 
   router.get('/stocks', (req, res) => {
     database
-      .query('SELECT Productname, Price, isAdult, StockNum FROM stock')
+      .query('SELECT product_name, price, is_adult, stock_number FROM stock')
       .then((rows) => {
         console.log(rows);
         res.json(rows);
@@ -18,8 +18,8 @@ module.exports = function(app, database, io) {
   router.put('/stocks', (req, res) => {
     database
       .query(
-        `INSERT INTO stock(ProductName, Price, isAdult, StockNum) VALUES ('${req.body.ProductName}', ${req.body.Price}, ${req.body.isAdult}, ${req.body.StockNum}) 
-        ON DUPLICATE KEY UPDATE ProductName='${req.body.ProductName}', Price=${req.body.Price}, isAdult=${req.body.isAdult}, StockNum=${req.body.StockNum}`,
+        `INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES ('${req.body.product_name}', ${req.body.price}, ${req.body.is_adult}, ${req.body.stock_number}) 
+        ON DUPLICATE KEY UPDATE product_name='${req.body.product_name}', price=${req.body.price}, is_adult=${req.body.is_adult}, stock_number=${req.body.stock_number}`,
       )
       .then((result) => {
         res.json(result);
