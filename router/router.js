@@ -7,8 +7,11 @@ module.exports = (database) => {
   router.get('/customer/:fpkey', (req, res) => {
     database
       .query(`SELECT * from customer WHERE fingerprint=${req.params.fpkey}`)
-      .then(res.send)
-      .catch(res.send);
+      .then((result) => {
+        if (result) res.send('OK');
+        else res.send('NO');
+      })
+      .catch(() => res.send());
   });
 
   router.get('/stocks', (_req, res) => {
@@ -17,7 +20,7 @@ module.exports = (database) => {
       .then((rows) => {
         res.json(rows);
       })
-      .catch(res.send);
+      .catch(() => res.send());
   });
 
   router.put('/stocks', (req, res) => {
