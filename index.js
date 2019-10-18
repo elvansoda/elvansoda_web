@@ -1,8 +1,9 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const mysql_data = require('./config.js');
+
 class Database {
   constructor(config) {
     this.connection = mysql.createConnection(config);
@@ -12,7 +13,7 @@ class Database {
     return new Promise((resolve, reject) => {
       this.connection.query(sql, args, (err, rows) => {
         if (err) return reject(err);
-        resolve(rows);
+        return resolve(rows);
       });
     });
   }
@@ -21,65 +22,29 @@ class Database {
     return new Promise((resolve, reject) => {
       this.connection.end((err) => {
         if (err) return reject(err);
-        resolve();
+        return resolve();
       });
     });
   }
 }
 
-let database = new Database(mysql_data);
-
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
-
 const port = process.env.PORT || 3000;
-const server = app.listen(port, function() {
+// eslint-disable-next-line no-unused-vars
+const server = app.listen(port, () => {
   console.log('Express server has started on port 3000');
 });
 
-const io = require('socket.io').listen(server);
+const mysqlData = require('./config.js');
 
-app.use(express.static('public'));
+const database = new Database(mysqlData);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const router = require('./router/router.js')(app, database, io);
+const router = require('./router/router.js').default(database);
+
 app.use('/api', router);
 
 setInterval(() => {
-  database.query('SELECT 1').catch((err) => {
-    console.log(err);
-  });
+  database.query('SELECT 1').catch(console.log);
 }, 5000);
-
-io.on('connection', (socket) => {
-  let id;
-  socket.on('new Access', () => {
-    id = socket.id;
-
-    database
-      .query('DELETE FROM screen WHERE id > 0;')
-      .then((rows) => {
-        return database.query('SELECT * FROM screen;');
-      })
-      .then((rows) => {
-        console.log('data deleted');
-        socket.emit('data updated');
-      });
-  });
-
-  socket.on('clear data', () => {
-    database
-      .query('DELETE FROM screen WHERE id > 0;')
-      .then((rows) => {
-        return database.query('SELECT * FROM screen;');
-      })
-      .then((rows) => {
-        console.log('data deleted');
-        socket.broadcast.emit('data clear');
-      })
-      .catch(console.log);
-  });
-});
