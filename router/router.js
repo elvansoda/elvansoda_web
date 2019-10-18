@@ -3,7 +3,6 @@ module.exports = (database) => {
   const express = require('express');
   const router = express.Router();
   // eslint-disable-next-line global-require
-  const { parse } = require('comment-json');
 
   router.get('/customer/:fpkey', (req, res) => {
     database
@@ -22,23 +21,19 @@ module.exports = (database) => {
   });
 
   router.put('/stocks', (req, res) => {
-    console.log('put');
     database
       .query(
         `INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES ('${req.body.product_name}', ${req.body.price}, ${req.body.is_adult}, ${req.body.stock_number}) 
         ON DUPLICATE KEY UPDATE product_name='${req.body.product_name}', price=${req.body.price}, is_adult=${req.body.is_adult}, stock_number=${req.body.stock_number}`,
       )
-      .then(res.json)
-      .catch(res.send);
+      .then(() => res.json())
+      .catch(() => res.send());
   });
 
   router.post('/stocks/', (req, res) => {
-    console.log('post');
     const dataList = req.body;
-    console.log(dataList[0].stock_number);
 
     for (let i = 0; i < dataList.length; i += 1) {
-      console.log(i);
       database
         .query(
           `UPDATE stock SET stock_number=stock_number-${dataList[i].stock_number} where product_name='${dataList[i].product_name}'`,
@@ -49,7 +44,6 @@ module.exports = (database) => {
   });
 
   router.delete('/stocks/:productName', (req, res) => {
-    console.log(req.params.productName);
     database
       .query(
         `SELECT Productname FROM stock WHERE Productname='${req.params.productName}';`,
@@ -63,7 +57,6 @@ module.exports = (database) => {
         // eslint-disable-next-line function-paren-newline
       )
       .then((result) => {
-        console.log(result);
         res.send(result);
       })
       .catch(res.send);
