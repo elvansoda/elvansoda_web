@@ -1,7 +1,9 @@
-module.exports = (parse, database) => {
+module.exports = (database) => {
   // eslint-disable-next-line global-require
   const express = require('express');
   const router = express.Router();
+  // eslint-disable-next-line global-require
+  const { parse } = require('comment-json');
 
   router.get('/customer/:fpkey', (req, res) => {
     database
