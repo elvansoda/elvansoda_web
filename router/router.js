@@ -30,12 +30,15 @@ module.exports = (database) => {
   });
 
   router.post('/stocks/', (req, res) => {
-    database
-      .query(
-        `UPDATE stock SET stock_number=stock_number-${req.body.stock_number} where product_name='${req.body.product_name}'`,
-      )
-      .then(res.json)
-      .catch(res.send);
+    const dataList = req.body.json;
+    for (let i; i < dataList.length; i += 1) {
+      database
+        .query(
+          `UPDATE stock SET stock_number=stock_number-${dataList[i].stock_number} where product_name='${dataList[i].product_name}'`,
+        )
+        .then(res.json)
+        .catch(res.send);
+    }
   });
 
   router.delete('/stocks/:productName', (req, res) => {

@@ -41,7 +41,7 @@ const database = new Database(mysqlData);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const router = require('./router/router.js').default(database);
+const router = require('./router/router.js')(database);
 
 app.use('/api', router);
 
