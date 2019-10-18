@@ -38,11 +38,11 @@ const mysqlData = require('./config.js');
 
 const database = new Database(mysqlData);
 
-app.use(bodyParser.json());
+const jsonParser = bodyParser.json();
+app.use(jsonParser);
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const router = require('./router/router.js')(database);
-
+const router = require('./router/router.js')(jsonParser, database);
 app.use('/api', router);
 
 setInterval(() => {

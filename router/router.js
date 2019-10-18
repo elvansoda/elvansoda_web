@@ -1,4 +1,4 @@
-module.exports = (database) => {
+module.exports = (jsonParser, database) => {
   // eslint-disable-next-line global-require
   const express = require('express');
   const router = express.Router();
@@ -29,8 +29,8 @@ module.exports = (database) => {
       .catch(res.send);
   });
 
-  router.post('/stocks/', (req, res) => {
-    const dataList = req.body.json;
+  router.post('/stocks/', jsonParser, (req, res) => {
+    const dataList = jsonParser;
     console.log(dataList);
     for (let i; i < dataList.length; i += 1) {
       database
