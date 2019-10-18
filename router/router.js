@@ -35,7 +35,7 @@ module.exports = (database) => {
   router.post('/stocks/', (req, res) => {
     console.log('post');
     const dataList = req.body;
-    console.log(dataList.length);
+    console.log(dataList[0].stock_number);
 
     for (let i = 0; i < dataList.length; i += 1) {
       console.log(i);
