@@ -32,7 +32,7 @@ module.exports = (database) => {
   });
 
   router.post('/stocks/', (req, res) => {
-    const dataList = parse(req.body);
+    const dataList = req.body;
     console.log(dataList);
     for (let i; i < dataList.length; i += 1) {
       database
