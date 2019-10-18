@@ -43,6 +43,7 @@ app.use(jsonParser);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const router = require('./router/router.js')(jsonParser, database);
+
 app.use('/api', router);
 
 setInterval(() => {

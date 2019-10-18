@@ -30,7 +30,7 @@ module.exports = (jsonParser, database) => {
   });
 
   router.post('/stocks/', jsonParser, (req, res) => {
-    const dataList = jsonParser;
+    const dataList = jsonParser.arguments;
     console.log(dataList);
     for (let i; i < dataList.length; i += 1) {
       database
