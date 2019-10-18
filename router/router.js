@@ -34,6 +34,7 @@ module.exports = (database) => {
   router.post('/stocks/', (req, res) => {
     const dataList = req.body;
     console.log(dataList);
+    console.log(dataList[0]);
     for (let i = 0; i < dataList.length; i += 1) {
       database
         .query(
