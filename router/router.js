@@ -43,8 +43,8 @@ module.exports = (database) => {
         .query(
           `UPDATE stock SET stock_number=stock_number-${dataList[i].stock_number} where product_name='${dataList[i].product_name}'`,
         )
-        .then(res.json)
-        .catch(res.send);
+        .then(() => res.json())
+        .catch(() => res.send());
     }
   });
 
