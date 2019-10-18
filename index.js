@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const [parse] = require('comment-json');
 
 class Database {
   constructor(config) {
@@ -42,7 +43,7 @@ const jsonParser = bodyParser.json();
 app.use(jsonParser);
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const router = require('./router/router.js')(jsonParser, database);
+const router = require('./router/router.js')(parse, database);
 
 app.use('/api', router);
 
