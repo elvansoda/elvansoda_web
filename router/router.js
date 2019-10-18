@@ -14,6 +14,13 @@ module.exports = (database) => {
       .catch(() => res.send());
   });
 
+  router.get('/customer/:id', (req, res) => {
+    database
+      .query(`SELECT * from customer where id=${req.params.id}`)
+      .then((result) => res.send(result ? 'OK' : 'NO'))
+      .catch(() => res.send());
+  });
+
   router.get('/stocks', (_req, res) => {
     database
       .query('SELECT product_name, price, is_adult, stock_number FROM stock')
