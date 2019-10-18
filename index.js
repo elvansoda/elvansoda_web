@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const [parse] = require('comment-json');
+const { parse } = require('comment-json');
 
 class Database {
   constructor(config) {
