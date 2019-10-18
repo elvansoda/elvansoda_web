@@ -17,7 +17,7 @@ module.exports = (database) => {
   router.get('/customer/:id', (req, res) => {
     database
       .query(`SELECT * from customer where id=${req.params.id}`)
-      .then((result) => res.send(result ? 'OK' : 'NO'))
+      .then((result) => res.send(result !== [] ? 'OK' : 'NO'))
       .catch(() => res.send());
   });
 
