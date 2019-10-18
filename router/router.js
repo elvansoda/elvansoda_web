@@ -22,6 +22,7 @@ module.exports = (database) => {
   });
 
   router.put('/stocks', (req, res) => {
+    console.log('put');
     database
       .query(
         `INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES ('${req.body.product_name}', ${req.body.price}, ${req.body.is_adult}, ${req.body.stock_number}) 
@@ -32,6 +33,7 @@ module.exports = (database) => {
   });
 
   router.post('/stocks/', (req, res) => {
+    console.log('post');
     const dataList = req.body;
     console.log(dataList);
     console.log(dataList[0]);
