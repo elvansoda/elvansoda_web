@@ -71,6 +71,7 @@ module.exports = (database) => {
         // eslint-disable-next-line function-paren-newline
       )
       .then((result) => {
+        console.log(result);
         res.send(result);
       })
       .catch(res.send);
