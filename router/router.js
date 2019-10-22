@@ -65,14 +65,12 @@ module.exports = (database) => {
       .query(
         `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
       )
-      .then(
-        () =>
-          // eslint-disable-next-line implicit-arrow-linebreak
-          database.query(
-            `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
-          ),
-        // eslint-disable-next-line function-paren-newline
-      )
+      .then((result) => {
+        console.log(result);
+        database.query(
+          `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
+        );
+      })
       .then((result) => {
         console.log(result);
         res.send(result);
