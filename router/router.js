@@ -15,11 +15,10 @@ module.exports = (database) => {
   });
 
   router.get('/customer/:id', (req, res) => {
+    console.log(1);
     database
       .query('SELECT * from customer')
       .then((result) => {
-        console.log(result);
-        console.log('=======================');
         res.json(result);
       })
       .catch((err) => {
