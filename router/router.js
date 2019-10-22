@@ -16,7 +16,7 @@ module.exports = (database) => {
 
   router.get('/customer/:id', (req, res) => {
     database
-      .query(`SELECT * from customer where id=${req.params.id}`)
+      .query('SELECT * from customer')
       .then((result) => {
         console.log(result);
         console.log('=======================');
