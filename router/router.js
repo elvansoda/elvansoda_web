@@ -69,12 +69,11 @@ module.exports = (database) => {
       .then((result) => {
         console.log(result);
         if (result === []) {
-          res.send('no_data');
-        } else {
-          return database.query(
-            `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
-          );
+          return res.send('no_data');
         }
+        return database.query(
+          `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
+        );
       })
       .then((result) => {
         console.log(result);
