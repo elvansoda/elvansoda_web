@@ -19,8 +19,7 @@ module.exports = (database) => {
       .query(`SELECT * from customer where id=${req.params.id}`)
       .then((result) => {
         console.log(result);
-        //   console.log(result);
-        //   res.send(result !== [] ? 'OK' : 'NO');
+        res.json(result);
       })
       .catch(() => res.send());
   });
@@ -44,7 +43,7 @@ module.exports = (database) => {
       .catch(() => res.send());
   });
 
-  router.post('/stocks/', (req, res) => {
+  router.post('/stocks', (req, res) => {
     const dataList = req.body;
 
     for (let i = 0; i < dataList.length; i += 1) {
@@ -57,7 +56,7 @@ module.exports = (database) => {
     }
   });
 
-  router.delete('/stocks/:productName', (req, res) => {
+  router.post('/stocks/:productName', (req, res) => {
     database
       .query(
         `SELECT Productname FROM stock WHERE Productname='${req.params.productName}';`,
