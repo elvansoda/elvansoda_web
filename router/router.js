@@ -21,7 +21,10 @@ module.exports = (database) => {
         console.log(result);
         res.json(result);
       })
-      .catch(() => res.send());
+      .catch((err) => {
+        console.log(err);
+        res.send(err);
+      });
   });
 
   router.get('/stocks', (_req, res) => {
