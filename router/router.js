@@ -77,7 +77,7 @@ module.exports = (database) => {
         console.log(result);
         res.send(result);
       })
-      .catch(res.send);
+      .catch((err) => res.send(err));
   });
 
   return router;
