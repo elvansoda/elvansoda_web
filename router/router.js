@@ -20,7 +20,7 @@ module.exports = (database) => {
       .then((result) => {
         console.log(result);
         console.log('=======================');
-        res.send(result);
+        res.json(result);
       })
       .catch((err) => {
         console.log(err);
