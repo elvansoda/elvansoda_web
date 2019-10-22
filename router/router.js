@@ -4,25 +4,26 @@ module.exports = (database) => {
   const router = express.Router();
   // eslint-disable-next-line global-require
 
-  router.get('/customer/:fpkey', (req, res) => {
+  router.get('/customer/fpkey/:fpkey', (req, res) => {
     database
       .query(`SELECT * from customer WHERE fingerprint=${req.params.fpkey}`)
       .then((result) => {
-        if (result) res.send('OK');
-        else res.send('NO');
+        if (result.length === 0) res.send('invalid');
+        else {
+          res.json(result);
+        }
       })
       .catch(() => res.send());
   });
 
-  router.get('/customer/:id', (req, res) => {
-    console.log(1);
+  router.get('/customer/id/:id', (req, res) => {
     database
-      .query('SELECT * from customer')
+      .query(`SELECT * from customer where id=${req.params.id}`)
       .then((result) => {
-        res.json(result);
+        if (result.length === 0) res.send('invalid');
+        else res.json(result);
       })
       .catch((err) => {
-        console.log(err);
         res.send(err);
       });
   });
