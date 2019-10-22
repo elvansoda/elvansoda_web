@@ -71,7 +71,7 @@ module.exports = (database) => {
         if (result === []) {
           res.send('no_data');
         } else {
-          database.query(
+          return database.query(
             `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
           );
         }
