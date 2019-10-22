@@ -40,7 +40,7 @@ module.exports = (database) => {
   router.put('/stocks', (req, res) => {
     database
       .query(
-        'INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE product_name+=?, price+=?, is_adult+=?, stock_number+=?',
+        'INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE product_name=product_name+?, price=price+?, is_adult=is_adult+?, stock_number=stock_number+?',
         [
           req.body.product_name,
           req.body.price,
