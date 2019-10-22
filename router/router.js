@@ -60,7 +60,7 @@ module.exports = (database) => {
     }
   });
 
-  router.post('/stocks/:productName', (req, res) => {
+  router.delete('/stocks/:productName', (req, res) => {
     database
       .query(
         `SELECT Productname FROM stock WHERE Productname='${req.params.productName}';`,
