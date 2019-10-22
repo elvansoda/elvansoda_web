@@ -64,10 +64,7 @@ module.exports = (database) => {
     console.log(
       database.connection.query(
         `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
-        (err, rows, fields) => {
-          return rows;
-        },
-      ),
+      ).rows,
     );
 
     database
