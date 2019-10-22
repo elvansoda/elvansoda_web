@@ -19,7 +19,8 @@ module.exports = (database) => {
       .query(`SELECT * from customer where id=${req.params.id}`)
       .then((result) => {
         console.log(result);
-        res.json(result);
+        console.log('=======================');
+        res.send(result);
       })
       .catch((err) => {
         console.log(err);
