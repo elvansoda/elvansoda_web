@@ -63,13 +63,13 @@ module.exports = (database) => {
   router.delete('/stocks/:productName', (req, res) => {
     database
       .query(
-        `SELECT Productname FROM stock WHERE Productname='${req.params.productName}';`,
+        `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
       )
       .then(
         () =>
           // eslint-disable-next-line implicit-arrow-linebreak
           database.query(
-            `DELETE FROM stock WHERE Productname='${req.params.productName}';`,
+            `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
           ),
         // eslint-disable-next-line function-paren-newline
       )
