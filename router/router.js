@@ -40,11 +40,20 @@ module.exports = (database) => {
   router.put('/stocks', (req, res) => {
     database
       .query(
-        `INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES ('${req.body.product_name}', ${req.body.price}, ${req.body.is_adult}, ${req.body.stock_number}) 
-        ON DUPLICATE KEY UPDATE product_name='${req.body.product_name}', price=${req.body.price}, is_adult=${req.body.is_adult}, stock_number=${req.body.stock_number}`,
+        'INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE product_name+=?, price+=?, is_adult+=?, stock_number+=?',
+        [
+          req.body.product_name,
+          req.body.price,
+          req.body.is_adult,
+          req.body.stock_number,
+          req.body.product_name,
+          req.body.price,
+          req.body.is_adult,
+          req.body.stock_number,
+        ],
       )
-      .then(() => res.json())
-      .catch(() => res.send());
+      .then((result) => res.send(result))
+      .catch((err) => res.send(err));
   });
 
   router.post('/stocks', (req, res) => {
@@ -62,26 +71,23 @@ module.exports = (database) => {
 
   router.delete('/stocks/:productName', (req, res) => {
     database
-      .query(
-        `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
-      )
+      .query('select * from stock where product_name=?', [
+        req.params.productName,
+      ])
       .then((result) => {
-        console.log(result);
-        if (result === []) {
-          return null;
-        }
-        return database.query(
-          `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
-        );
+        console.log(result.length > 0);
+        if (result.length === 0) throw new Error('no_data');
+        database.query('delete from stock where product_name=?', [
+          req.params.productName,
+        ]);
       })
       .then((result) => {
-        console.log(result);
-        if (!result) return;
-        else {
-          res.send(result);
-        }
+        res.send(result);
       })
-      .catch((err) => res.send(err));
+      .catch((err) => {
+        console.log(err);
+        res.send('no_data');
+      });
   });
 
   return router;
