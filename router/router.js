@@ -64,6 +64,9 @@ module.exports = (database) => {
     console.log(
       database.connection.query(
         `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
+        (err, rows, fields) => {
+          return rows;
+        },
       ),
     );
 
@@ -74,7 +77,7 @@ module.exports = (database) => {
       .then((result) => {
         console.log(result);
         if (result === []) {
-          return res.send('no_data');
+          res.send('no_data');
         }
         return database.query(
           `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
