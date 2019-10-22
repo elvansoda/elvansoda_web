@@ -38,6 +38,7 @@ module.exports = (database) => {
   });
 
   router.put('/stocks', (req, res) => {
+    console.log(req.body);
     database
       .query(
         'INSERT INTO stock(product_name, price, is_adult, stock_number) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE product_name=product_name+?, price=price+?, is_adult=is_adult+?, stock_number=stock_number+?',
