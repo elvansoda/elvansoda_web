@@ -61,22 +61,15 @@ module.exports = (database) => {
   });
 
   router.delete('/stocks/:productName', (req, res) => {
-    console.log(
-      database.connection.query(
-        `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
-      ).rows,
-    );
-
     database
       .query(
         `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
       )
       .then((result) => {
-        console.log(result);
         if (result === []) {
-          res.send('no_data');
+          throw new Error('no_data');
         }
-        return database.query(
+        database.query(
           `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
         );
       })
