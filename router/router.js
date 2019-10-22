@@ -66,13 +66,15 @@ module.exports = (database) => {
         `SELECT product_name FROM stock WHERE product_name='${req.params.productName}';`,
       )
       .then((result) => {
-        console.log(result);
-        database.query(
-          `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
-        );
+        if (result === []) {
+          res.send('no_data');
+        } else {
+          database.query(
+            `DELETE FROM stock WHERE product_name='${req.params.productName}';`,
+          );
+        }
       })
       .then((result) => {
-        console.log(result);
         res.send(result);
       })
       .catch((err) => res.send(err));
