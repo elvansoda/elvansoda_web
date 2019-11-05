@@ -29,8 +29,6 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^14.0.0",
     "nodemon": "^1.19.3"
   }
 }
